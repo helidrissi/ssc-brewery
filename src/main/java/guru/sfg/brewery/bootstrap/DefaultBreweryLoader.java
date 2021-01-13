@@ -93,7 +93,7 @@ public class DefaultBreweryLoader implements CommandLineRunner {
                     .build());
 
             Beer galaxyCat = Beer.builder()
-                    .beerName("Galaxy Cat")
+                    .beerName("Heinekein")
                     .beerStyle(BeerStyleEnum.PALE_ALE)
                     .minOnHand(12)
                     .quantityToBrew(200)
