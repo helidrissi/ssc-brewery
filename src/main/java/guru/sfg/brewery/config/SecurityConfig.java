@@ -1,5 +1,6 @@
 package guru.sfg.brewery.config;
 
+import guru.sfg.brewery.security.SfgPasswordEncoderFactories;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -7,14 +8,19 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Bean
+    PasswordEncoder passwordEncoder() {
+
+        return SfgPasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -32,12 +38,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
-        .withUser("spring")
-        .password("{noop}guru")
+                .withUser("spring")
+                .password("{ldap}{SSHA}C7tqqcTd/7XtGPvC1ap6ki56l1MsUG0csJ675w==")
                 .roles("ADMIN")
                 .and()
                 .withUser("user")
-                .password("{noop}password")
+                .password("{bcrypt}$2a$10$WVqm677KKPKcViR/NB2YDOM73swONmSCy9YP74NwHpilTVPmwmYFW")
                 .roles("USER");
     }
 
