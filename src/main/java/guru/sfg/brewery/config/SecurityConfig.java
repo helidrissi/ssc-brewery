@@ -15,7 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  */
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
@@ -26,11 +26,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     authorize
                             .antMatchers("/h2-console/**").permitAll() //do not use in production!
                             .antMatchers("/", "/webjars/**", "/login", "/resources/**").permitAll()
-                            .antMatchers("/beers/find", "/beers*").permitAll()
-                            .antMatchers(HttpMethod.DELETE,"/api/v1/beer/**").hasRole("ADMIN")
-                            .antMatchers(HttpMethod.GET, "/api/v1/beer/**").permitAll()
-                            .antMatchers( "/brewery/**").hasAnyRole("ADMIN","USER")
-                            .mvcMatchers(HttpMethod.GET, "/api/v1/beerUpc/{upc}").permitAll();
+                            //.antMatchers("/beers/find", "/beers*").permitAll()
+                            //.antMatchers(HttpMethod.DELETE,"/api/v1/beer/**").hasRole("ADMIN")
+                            //.antMatchers(HttpMethod.GET, "/api/v1/beer/**").permitAll()
+                            .antMatchers( "/brewery/**").hasAnyRole("ADMIN","USER");
+                            //.mvcMatchers(HttpMethod.GET, "/api/v1/beerUpc/{upc}").permitAll();
                 } )
                 .authorizeRequests()
                 .anyRequest().authenticated()

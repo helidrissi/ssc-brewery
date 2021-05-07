@@ -21,22 +21,7 @@ public abstract class BaseIT {
     @Autowired
     WebApplicationContext wac;
 
-    public MockMvc mockMvc;
-
-    @MockBean
-    BeerRepository beerRepository;
-
-    @MockBean
-    BeerInventoryRepository beerInventoryRepository;
-
-    @MockBean
-    BreweryService breweryService;
-
-    @MockBean
-    CustomerRepository customerRepository;
-
-    @MockBean
-    BeerService beerService;
+    protected MockMvc mockMvc;
 
     @BeforeEach
     public void setup() {
@@ -45,6 +30,7 @@ public abstract class BaseIT {
                 .apply(springSecurity())
                 .build();
     }
+
     public static Stream<Arguments> getStreamAdminCustomer() {
         return Stream.of(Arguments.of("spring" , "guru"),
                 Arguments.of("scott", "tiger"));
