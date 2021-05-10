@@ -1,6 +1,5 @@
 package guru.sfg.brewery.domain.security;
 
-
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -8,13 +7,14 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
+
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Getter
 @Setter
-@Builder
 @Entity
-public class LoginSucces {
+public class LoginSuccess {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,12 +22,13 @@ public class LoginSucces {
 
     @ManyToOne
     private User user;
+
     private String sourceIp;
 
     @CreationTimestamp
     @Column(updatable = false)
-    private Timestamp createDate;
+    private Timestamp createdDate;
 
     @UpdateTimestamp
-    private Timestamp lastModifedDate;
+    private Timestamp lastModifiedDate;
 }
