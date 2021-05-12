@@ -3,7 +3,6 @@ package guru.sfg.brewery.config;
 import guru.sfg.brewery.security.SfgPasswordEncoderFactories;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -22,6 +21,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http
+                .cors().and()
                 .authorizeRequests(authorize -> {
                     authorize
                             .antMatchers("/h2-console/**").permitAll() //do not use in production!
@@ -29,9 +29,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                             //.antMatchers("/beers/find", "/beers*").permitAll()
                             //.antMatchers(HttpMethod.DELETE,"/api/v1/beer/**").hasRole("ADMIN")
                             //.antMatchers(HttpMethod.GET, "/api/v1/beer/**").permitAll()
-                            .antMatchers( "/brewery/**").hasAnyRole("ADMIN","USER");
-                            //.mvcMatchers(HttpMethod.GET, "/api/v1/beerUpc/{upc}").permitAll();
-                } )
+                            .antMatchers("/brewery/**").hasAnyRole("ADMIN", "USER");
+                    //.mvcMatchers(HttpMethod.GET, "/api/v1/beerUpc/{upc}").permitAll();
+                })
                 .authorizeRequests()
                 .anyRequest().authenticated()
                 .and()
@@ -43,10 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.headers().frameOptions().sameOrigin();
     }
 
-    @Bean
-    PasswordEncoder passwordEncoder(){
-        return SfgPasswordEncoderFactories.createDelegatingPasswordEncoder();
-    }
+
 
     // @Override
     //   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -81,19 +78,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //
 //        return new InMemoryUserDetailsManager(admin, user);
 //    }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }
